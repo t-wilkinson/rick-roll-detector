@@ -6,11 +6,11 @@ import (
 	"log"
 	"net"
 	"net/http"
-	"net/rpc"
+	// "net/rpc"
 )
 
 type Client struct {
-	client *rpc.Client
+	// client *rpc.Client
 }
 
 func (c *Client) homeHandler(w http.ResponseWriter, r *http.Request) {
@@ -58,13 +58,13 @@ func (c *Client) searchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// get the rating from rickroll service
-	// rating = rickroll.SearchURL(userQuery)
-	err := c.client.Call("SafetyRating.SearchURL", userQuery, &rating)
-	if err != nil {
-		fmt.Println("safetyRating call error")
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
+	rating = rickroll.SearchURL(userQuery)
+	// err := c.client.Call("SafetyRating.SearchURL", userQuery, &rating)
+	// if err != nil {
+	// 	fmt.Println("safetyRating call error")
+	// 	http.Error(w, err.Error(), http.StatusBadRequest)
+	// 	return
+	// }
 
 	// save the rating to the database
 	go sendDb(fmt.Sprintf("%s %c", userQuery, rating))
@@ -74,12 +74,12 @@ func (c *Client) searchHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func Start(webServerAddress string, rpcAddress string) {
-	client, err := rpc.DialHTTP("tcp", rpcAddress)
-	if err != nil {
-		log.Fatal("dialing:", err)
-	}
+	// client, err := rpc.DialHTTP("tcp", rpcAddress)
+	// if err != nil {
+	// 	log.Fatal("dialing:", err)
+	// }
 
-	c := &Client{client}
+	c := &Client{}
 
 	http.HandleFunc("/", c.homeHandler)
 	http.HandleFunc("/search", c.searchHandler)

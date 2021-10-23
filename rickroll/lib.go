@@ -3,10 +3,10 @@ package rickroll
 import (
 	"errors"
 	"io"
-	"log"
-	"net"
+	// "log"
+	// "net"
 	"net/http"
-	"net/rpc"
+	// "net/rpc"
 	"regexp"
 )
 
@@ -53,15 +53,15 @@ func (t *SafetyRating) SearchURL(query *string, reply *SafetyRating) error {
 	return nil
 }
 
-func Start(address string) {
-	safetyRating := new(SafetyRating)
-	rpc.Register(safetyRating)
-	rpc.HandleHTTP()
-	l, e := net.Listen("tcp", address)
-	if e != nil {
-		log.Fatal("listen error:", e)
-	}
-	log.Println(l.Addr().String())
-	go rpc.Accept(l)
-	http.Serve(l, nil)
-}
+// func Start(address string) {
+// 	safetyRating := new(SafetyRating)
+// 	rpc.Register(safetyRating)
+// 	rpc.HandleHTTP()
+// 	l, e := net.Listen("tcp", address)
+// 	if e != nil {
+// 		log.Fatal("listen error:", e)
+// 	}
+// 	log.Println(l.Addr().String())
+// 	go rpc.Accept(l)
+// 	go http.Serve(l, nil)
+// }
